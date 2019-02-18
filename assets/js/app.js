@@ -27,4 +27,3 @@ $(() => {
     game_init(root, channel);
   }
 });
-

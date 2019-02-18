@@ -11,11 +11,11 @@ defmodule Othello.Application do
       # Start the Ecto repository
 #      Othello.Repo,
       # Start the endpoint when the application starts
-      OthelloWeb.Endpoint
+      OthelloWeb.Endpoint,
       # Starts a worker by calling: Othello.Worker.start_link(arg)
       # {Othello.Worker, arg},
-      Othelo.GameSup
-      Othello.BackupAgent
+      Othello.GameSup,
+      Othello.BackupAgent,
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

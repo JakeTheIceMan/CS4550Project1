@@ -96,5 +96,3 @@ class Starter extends React.Component {
     </div>;
   }
 }
-
-

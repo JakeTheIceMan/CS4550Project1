@@ -9,7 +9,7 @@ defmodule Othello.GameServer do
     spec = %{
       id: __MODULE__,
       start: {__MODULE__, :start_link, [name]},
-      restart: permanent,
+      restart: :permanent,
       type: :worker,
     }
     Othello.GameSup.start_child(spec)
