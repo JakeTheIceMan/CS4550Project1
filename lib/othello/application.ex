@@ -14,6 +14,8 @@ defmodule Othello.Application do
       OthelloWeb.Endpoint
       # Starts a worker by calling: Othello.Worker.start_link(arg)
       # {Othello.Worker, arg},
+      Othelo.GameSup
+      Othello.BackupAgent
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
