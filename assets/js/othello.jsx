@@ -3,96 +3,90 @@ import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
 export default function game_init(root, channel) {
-  console.log("HEEE");
   ReactDOM.render(<Starter channel={channel}/>, root);
 }
 
 class Starter extends React.Component {
   constructor(props) {
-    console.log("CONSING");
     super(props);
     this.channel = props.channel;
-    this.channel
-        .join()
-        .receive("ok", this.got_view.bind(this))
-        .receive("error", resp => { console.log("Unable to join", resp); });
     this.state = {
-      clicks: 0,
-      tiles: ["", "", "", "", "", "", "", "","", "", "", "", "", "", "", ""]
-    }
-  }
-//n
-  got_view(view) {
-    console.log("new view", view);
-    this.setState(view.game);
-    if (this.state.flipped) {
-      setTimeout(this.que_flip.bind(this), 1000);
-    }
+      black_turn: true,
+      board: []
+    };
+
+    this.channel
+    .join()
+    .receive("ok", resp => {
+      console.log("Joined successfully!", resp);
+      this.setState(resp.game);
+    })
+    .receive("error", resp => {
+      console.log("Unable to join", resp);
+    });
   }
 
-  que_flip() {
-    this.channel.push("deflip")
-                .receive("ok", this.de_flip.bind(this));
-  }
-
-  de_flip(view) {
-    console.log("deflip", view);
-    this.setState(view.game);
-  }
-
-//n
-  on_flip(ev) {
-    if (ev.target.id <= 15 && ev.target.id >= 0) {
-      this.channel.push("flip", { tileNum: ev.target.id })
-                  .receive("ok", this.got_view.bind(this));
-    }
-  }
-
-//r
-  make_button(num) {
-    return <div className="column" onClick={this.on_flip.bind(this)}>
-             <div className="button" id={num}>{this.state.tiles[num]}</div>
-           </div>;
-  }
-
-//n
+  //n
   restart() {
     this.channel.push("restart")
-                .receive("ok", this.got_view.bind(this));
+    .receive("ok", this.setState(resp.game));
   }
 
-//r
-  render() {
-    return <div>
-      <div className="column" onClick={this.restart.bind(this)}>
-             <div className="button">Restart</div>
-             </div>
-      <p>Score: {parseInt(1000000 / Math.max(parseInt(this.state.clicks/2)-7, 1))}</p>
-      <p>Clicks: {this.state.clicks}</p>
-      <div className="row">
-        {this.make_button(0)}
-        {this.make_button(1)}
-        {this.make_button(2)}
-        {this.make_button(3)}
-      </div>
-      <div className="row">
-        {this.make_button(4)}
-        {this.make_button(5)}
-        {this.make_button(6)}
-        {this.make_button(7)}
-      </div>
-      <div className="row">
-        {this.make_button(8)}
-        {this.make_button(9)}
-        {this.make_button(10)}
-        {this.make_button(11)}
-      </div>
-      <div className="row">
-        {this.make_button(12)}
-        {this.make_button(13)}
-        {this.make_button(14)}
-        {this.make_button(15)}
-      </div>
-    </div>;
+  choose(r, c) {
+    if (this.state.black_turn) {
+      this.channel
+      .push("choose", {row: r, column: c, player: "black"})
+      .receive("ok", resp => { this.setState(resp.game); });
+    } else {
+      this.channel
+      .push("choose", {row: r, column: c, player: "white"})
+      .receive("ok", resp => { this.setState(resp.game); });
+    }
   }
+
+  //r
+  render() {
+    let board = _.map(this.state.board, (row, rowIndex) => {
+      return <ShowRow
+      key={rowIndex}
+      rowIndex={rowIndex}
+      root={this}
+      choose={this.choose.bind(this)}
+      row={row} />;
+    });
+
+    return (
+      <div>
+      {board}
+      </div>
+    );
+  }
+}
+
+function ShowRow(props) {
+  let renderedRow = _.map(props.row, (col, colIndex) => {
+    switch (col.color) {
+      case "black":
+      <div className="column" key={colIndex}>
+      <div><p>{col.color}</p></div>
+      </div>
+      break;
+      case "white":
+      <div className="column" key={colIndex}>
+      <div><p>{col.color}</p></div>
+      </div>
+      break;
+      case "green":
+      <div className="column" key={colIndex}>
+      <div><button>{col.color}</button></div>
+      </div>
+      break;
+      default:
+      <div className="column" key={colIndex}>
+      <div><p>{col.color}</p></div>
+      </div>
+    }
+  });
+
+  return <div className="row">{renderedRow}</div>;
 }

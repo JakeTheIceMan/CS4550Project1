@@ -2,7 +2,7 @@ defmodule OthelloWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  channel "room:*", OthelloWeb.RoomChannel
+  channel "games:*", OthelloWeb.GamesChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
