@@ -7,9 +7,6 @@
 # General application configuration
 use Mix.Config
 
-config :othello,
-  ecto_repos: [Othello.Repo]
-
 # Configures the endpoint
 config :othello, OthelloWeb.Endpoint,
   url: [host: "localhost"],

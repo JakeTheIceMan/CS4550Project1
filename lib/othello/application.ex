@@ -8,8 +8,6 @@ defmodule Othello.Application do
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
-      # Start the Ecto repository
-#      Othello.Repo,
       # Start the endpoint when the application starts
       OthelloWeb.Endpoint,
       # Starts a worker by calling: Othello.Worker.start_link(arg)

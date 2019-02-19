@@ -8,11 +8,3 @@ config :othello, OthelloWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
-
-# Configure your database
-config :othello, Othello.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "othello_test",
-  hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox

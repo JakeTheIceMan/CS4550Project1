@@ -15,7 +15,7 @@ defmodule OthelloWeb.Router do
 
   scope "/", OthelloWeb do
     pipe_through :browser
-
+    get "/game/:name", PageController, :game
     get "/", PageController, :index
   end
 
