@@ -55,6 +55,7 @@ defmodule Othello.Game do
 
     %{
       board: b,
+      black_turn: game.black_turn,
       game_over: is_game_over(game)
     }
   end
@@ -128,7 +129,13 @@ defmodule Othello.Game do
   # Perform a move chosen by a player.
   def do_move(move, player, board) do
     # Get a list of the spaces that need to be flipped in all directions.
-    spaces = List.foldr(directions(), [], fn(dir, acc) -> acc ++ find_line(move, player, board, dir) end)
+    spaces = List.foldr(directions(), [], fn(dir, acc) ->
+      if line_legal(move, player, board, dir) do
+        acc ++ find_line(move, player, board, dir)
+      else
+        acc
+      end
+    end)
     # Fill the space that the current player is occupying.
     List.replace_at(board, move, %{empty: false, color: player})
     # Flip the rest of the spaces.
