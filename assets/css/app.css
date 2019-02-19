@@ -5,3 +5,27 @@
 div.tile {
   background-color: "green"
 }
+
+.column > .green {
+  background: green;
+  padding: 3ex;
+  border: 1px solid gray;
+}
+
+.column > .black {
+  background: black;
+  padding: 3ex;
+  border: 1px solid gray;
+}
+
+.column > .white {
+  background: white;
+  padding: 3ex;
+  border: 1px solid gray;
+}
+
+.column > .brown {
+  background: brown;
+  padding: 3ex;
+  border: 1px solid brown;
+}

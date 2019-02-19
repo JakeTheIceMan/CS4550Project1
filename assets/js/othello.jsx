@@ -29,7 +29,7 @@ class Starter extends React.Component {
   //n
   restart() {
     this.channel.push("restart")
-    .receive("ok", this.setState(resp.game));
+    .receive("ok", resp => { this.setState(resp.game); });
   }
 
   choose(r, c) {
@@ -57,6 +57,11 @@ class Starter extends React.Component {
 
     return (
       <div>
+      <div className="row">
+      <div className="column">
+      <button onClick={this.restart.bind(this)}>Restart</button>
+      </div>
+      </div>
       {board}
       </div>
     );
@@ -65,27 +70,13 @@ class Starter extends React.Component {
 
 function ShowRow(props) {
   let renderedRow = _.map(props.row, (col, colIndex) => {
-    switch (col.color) {
-      case "black":
+    return (
       <div className="column" key={colIndex}>
-      <div><p>{col.color}</p></div>
+      <div className={col.color} onClick={
+        () => props.choose(props.rowIndex, colIndex)
+      }/>
       </div>
-      break;
-      case "white":
-      <div className="column" key={colIndex}>
-      <div><p>{col.color}</p></div>
-      </div>
-      break;
-      case "green":
-      <div className="column" key={colIndex}>
-      <div><button>{col.color}</button></div>
-      </div>
-      break;
-      default:
-      <div className="column" key={colIndex}>
-      <div><p>{col.color}</p></div>
-      </div>
-    }
+    )
   });
 
   return <div className="row">{renderedRow}</div>;
