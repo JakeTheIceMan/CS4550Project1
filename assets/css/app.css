@@ -6,6 +6,10 @@ div.tile {
   background-color: "green"
 }
 
+.row .column {
+  padding: 0;
+}
+
 .column > .green {
   background: green;
   padding: 3ex;
