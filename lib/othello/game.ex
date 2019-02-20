@@ -49,7 +49,6 @@ defmodule Othello.Game do
 
   # Return the client state.
   def client_view(game) do
-    IO.inspect(game)
     b = game.board
     |> Enum.map(fn (el) -> render_element(el) end)
     |> Enum.chunk_every(10)

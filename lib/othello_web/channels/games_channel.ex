@@ -5,24 +5,26 @@ defmodule OthelloWeb.GamesChannel do
 
   intercept ["update"]
 
-  def join("games:" <> game, payload, socket) do
+  def join("games:" <> name, payload, socket) do
     if authorized?(payload) do
-      socket = assign(socket, :game, game)
-      GameServer.start(game)
-      {:ok, %{"join" => game, "game" => GameServer.view(game)}, socket}
+      socket = socket
+      |> assign(:name, name)
+      GameServer.start(name)
+      {:ok, %{"join" => name, "game" => GameServer.view(name)}, socket}
     else
       {:error, %{reason: "unauthorized"}}
     end
   end
 
   def handle_in("choose", %{"row" => r, "column" => c, "player" => p}, socket) do
-    game = GameServer.choose(socket.assigns[:game], r, c, p)
+    IO.inspect(socket.assigns[:name])
+    game = GameServer.choose(socket.assigns[:name], r, c, p)
     update!(game, socket)
     {:reply, {:ok, %{"game" => game}}, socket}
   end
 
   def handle_in("restart", _, socket) do
-    game = GameServer.restart(socket.assigns[:game])
+    game = GameServer.restart(socket.assigns[:name])
     update!(game, socket)
     {:reply, {:ok, %{"game" => game}}, socket}
   end
