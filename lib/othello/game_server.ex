@@ -39,18 +39,16 @@ defmodule Othello.GameServer do
   def handle_call({:choose, name, r, c, player}, _from, game) do
     game = Othello.Game.choose(game, r, c, player)
     Othello.BackupAgent.put(name, game)
-    {:reply, game, game}
+    {:reply, Othello.Game.client_view(game), game}
   end
 
   def handle_call({:restart, name}, _from, game) do
-    new_game = Othello.Game.new()
-    Othello.BackupAgent.put(name, new_game)
-    IO.inspect(Othello.BackupAgent.get(name))
-    {:reply, new_game, game}
+    game = Othello.Game.new()
+    Othello.BackupAgent.put(name, game)
+    {:reply, Othello.Game.client_view(game), game}
   end
 
   def handle_call({:view, _name}, _from, game) do
-    view = Othello.Game.client_view(game)
-    {:reply, view, game}
+    {:reply, Othello.Game.client_view(game), game}
   end
 end
