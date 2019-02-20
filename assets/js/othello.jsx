@@ -38,15 +38,9 @@ class Starter extends React.Component {
   }
 
   choose(r, c) {
-    if (this.state.black_turn) {
-      this.channel
-      .push("choose", {row: r, column: c, player: "black"})
-      .receive("ok", resp => { this.setState(resp.game); });
-    } else {
-      this.channel
-      .push("choose", {row: r, column: c, player: "white"})
-      .receive("ok", resp => { this.setState(resp.game); });
-    }
+    this.channel
+    .push("choose", {row: r, column: c})
+    .receive("ok", resp => { this.setState(resp.game); });
   }
 
   //r

@@ -42,7 +42,7 @@ defmodule Othello.GameServer do
     {:reply, Othello.Game.client_view(game), game}
   end
 
-  def handle_call({:restart, name}, _from, game) do
+  def handle_call({:restart, name}, _from, _game) do
     game = Othello.Game.new()
     Othello.BackupAgent.put(name, game)
     {:reply, Othello.Game.client_view(game), game}
