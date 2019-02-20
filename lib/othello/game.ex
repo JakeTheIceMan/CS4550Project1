@@ -56,7 +56,7 @@ defmodule Othello.Game do
     %{
       board: b,
       black_turn: game.black_turn,
-      game_over: is_game_over(game)
+      winner: winner(game)
     }
   end
 
@@ -119,7 +119,7 @@ defmodule Othello.Game do
       List.replace_at(board, index, %{empty: false, color: player})
       # and flip the rest of the indices.
       |> flip(player, tail)
-    # Otherwise,
+      # Otherwise,
     else
       # Flip the rest  of the spaces.
       flip(board, player, tail)
@@ -153,6 +153,30 @@ defmodule Othello.Game do
     !Enum.any?(valid_indices(), fn(i) -> is_legal(i, "black", game.board) end) and !Enum.any?(valid_indices(), fn(i) -> is_legal(i, "white", game.board) end)
   end
 
+  # Determine who is the winner of a game.
+  def winner(game) do
+    # If the game isn't over, nobody is the winner.
+    if !is_game_over(game) do
+      "none"
+    # If the game is over,
+    else
+      # Tally the number of spaces for each player.
+      black_spaces = Enum.count(game.board, fn tile -> tile.color == "black" end)
+      white_spaces = Enum.count(game.board, fn tile -> tile.color == "white" end)
+      # Determine who has the most spaces, and if there's a tie, indicate so.
+      cond do
+        black_spaces > white_spaces -> "black"
+        white_spaces > black_spaces -> "white"
+        true -> "tie"
+      end
+    end
+  end
+
+  # Count the number of legal moves in a game for a given player.
+  def legal_moves(player, game) do
+    Enum.count(valid_indices, fn i -> is_legal(i, player, game.board) end)
+  end
+
   # A player chooses a space in the board to try and occupy.
   def choose(game, row, column, player) do
     # Translate their move into a valid board index.
@@ -164,10 +188,16 @@ defmodule Othello.Game do
       |> Map.put(:board, do_move(move, player, game.board))
       # Change whose turn it is.
       |> Map.put(:black_turn, !game.black_turn)
-    # Otherwise,
+      # Otherwise,
     else
-      # Nothing changes.
-      game
+      # If the player cannot perform any legal moves,
+      if legal_moves(player, game) == 0 do
+        # Pass the turn to the opponent.
+        Map.put(game, :black_turn, !game.black_turn)
+      else
+        # Otherwise, let the player pick a legal move.
+        game
+      end
     end
   end
 end
