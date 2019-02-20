@@ -150,7 +150,7 @@ defmodule Othello.Game do
   # Check to see if the game is over.
   def is_game_over(game) do
     # Check if there are no legal moves that Black can make and no legal moves that White can make.
-    !Enum.any?(valid_indices(), fn(i) -> is_legal(i, "black", game.board) end) and !Enum.any?(valid_indices(), fn(i) -> is_legal(i, "white", game.board) end)
+    legal_moves("black", game) == 0 and legal_moves("white", game) == 0
   end
 
   # Determine who is the winner of a game.

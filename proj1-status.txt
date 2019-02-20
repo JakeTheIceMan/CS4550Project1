@@ -23,7 +23,7 @@ Jake Piersall
 
 5. Is your app functionality complete? If not, what's missing?
 
-
+The app functionality is complete.
 
 6. Is your app properly deployed? If not, what went wrong?
 
