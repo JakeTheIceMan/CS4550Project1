@@ -158,7 +158,7 @@ defmodule Othello.Game do
     # If the game isn't over, nobody is the winner.
     if !is_game_over(game) do
       "none"
-    # If the game is over,
+      # If the game is over,
     else
       # Tally the number of spaces for each player.
       black_spaces = Enum.count(game.board, fn tile -> tile.color == "black" end)
@@ -174,7 +174,7 @@ defmodule Othello.Game do
 
   # Count the number of legal moves in a game for a given player.
   def legal_moves(player, game) do
-    Enum.count(valid_indices, fn i -> is_legal(i, player, game.board) end)
+    Enum.count(valid_indices(), fn i -> is_legal(i, player, game.board) end)
   end
 
   # A player chooses a space in the board to try and occupy.
@@ -191,7 +191,7 @@ defmodule Othello.Game do
       # Otherwise,
     else
       # If the player cannot perform any legal moves,
-      if legal_moves(player, game) == 0 do
+      if is_player_turn(game, player) and legal_moves(player, game) == 0 do
         # Pass the turn to the opponent.
         Map.put(game, :black_turn, !game.black_turn)
       else
