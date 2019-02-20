@@ -54,11 +54,25 @@ class Starter extends React.Component {
       row={row} />;
     });
 
+    let turn = this.state.black_turn ? "black" : "white";
+    let restart = (
+      <div className="column">
+      <button onClick={this.restart.bind(this)}>Restart</button>
+      </div>
+    );
+    let winner = (
+      <div className="column">
+      <p>The winner is {this.state.winner}!</p>
+      </div>
+    );
+
     return (
       <div>
       <div className="row">
+      {this.state.winner === "none" ? null : restart}
+      {this.state.winner === "none" ? null : winner}
       <div className="column">
-      <button onClick={this.restart.bind(this)}>Restart</button>
+      <h4>It is now {turn}'s turn.</h4>
       </div>
       </div>
       {board}

@@ -17,7 +17,6 @@ defmodule OthelloWeb.GamesChannel do
   end
 
   def handle_in("choose", %{"row" => r, "column" => c}, socket) do
-    IO.inspect(socket.assigns[:name])
     game = GameServer.choose(socket.assigns[:name], r, c, socket.assigns[:user])
     update!(game, socket)
     {:reply, {:ok, %{"game" => game}}, socket}
