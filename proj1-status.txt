@@ -11,7 +11,7 @@ Jake Piersall
 
 2. What's the URL of the github repo with your code for this project?
 
-
+https://github.com/JakeTheIceMan/CS4550Project1
 
 3. What's the version number of your github release?
 
@@ -19,7 +19,7 @@ Jake Piersall
 
 4. What's the URL that you deployed to?
 
-
+http://othello.the-real-ice-man.website
 
 5. Is your app functionality complete? If not, what's missing?
 
@@ -31,8 +31,8 @@ The app functionality is complete.
 
 7. What parts of the project did each team member work on?
 
-
-
+Ben: Game rules implementation, UI - server communication, Game server management
+Jake: UI and graphic design, deployment, initial application setup
 
 And here's a list of tasks for grading comments. Just leave this here:
  - Development
