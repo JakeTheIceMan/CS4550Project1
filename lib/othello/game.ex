@@ -12,21 +12,21 @@ defmodule Othello.Game do
 
   # Fill all non-border indices with empty spaces.
   def fill_valid_indices(board, [index | tail]) do
-    List.replace_at(board, index, %{empty: true, color: nil})
+    List.replace_at(board, index, %{color: nil})
     |> fill_valid_indices(tail)
   end
 
   # Return a new board.
   def init_board do
     # Establish an empty 10x10 board filled with border spaces.
-    empty_board = Enum.map(1..100, fn(_) -> %{empty: false, color: "border"} end)
+    empty_board = Enum.map(1..100, fn(_) -> %{color: "border"} end)
     # Replace the border spaces at all the non-edge indices with empty spaces,
     fill_valid_indices(empty_board, valid_indices())
     # Set up the initial four spaces in the middle for White and Black.
-    |> List.replace_at(54, %{empty: false, color: "black"})
-    |> List.replace_at(45, %{empty: false, color: "black"})
-    |> List.replace_at(44, %{empty: false, color: "white"})
-    |> List.replace_at(55, %{empty: false, color: "white"})
+    |> List.replace_at(54, %{color: "black"})
+    |> List.replace_at(45, %{color: "black"})
+    |> List.replace_at(44, %{color: "white"})
+    |> List.replace_at(55, %{color: "white"})
   end
 
   # Create a new game.
@@ -103,7 +103,7 @@ defmodule Othello.Game do
   # Determine if a move is legal.
   def is_legal(move, player, board) do
     # Check that the space the player is trying to use is empty, and whether or not a line in any direction is legal.
-    Enum.at(board, move).empty and Enum.any?(directions(), fn(dir) -> line_legal(move, player, board, dir) end)
+    Enum.at(board, move).color == nil and Enum.any?(directions(), fn(dir) -> line_legal(move, player, board, dir) end)
   end
 
   # If we have nothing to flip, return the board.
@@ -116,7 +116,7 @@ defmodule Othello.Game do
     # If the space at index is occupied by the player's opponent,
     if Enum.at(board,  index).color == opponent(player) do
       # Set the space to be occupied by the player,
-      List.replace_at(board, index, %{empty: false, color: player})
+      List.replace_at(board, index, %{color: player})
       # and flip the rest of the indices.
       |> flip(player, tail)
       # Otherwise,
@@ -140,7 +140,7 @@ defmodule Othello.Game do
       end
     end)
     # Fill the space that the current player is occupying.
-    List.replace_at(board, move, %{empty: false, color: player})
+    List.replace_at(board, move, %{color: player})
     # Flip the rest of the spaces.
     |> flip(player, spaces)
   end
