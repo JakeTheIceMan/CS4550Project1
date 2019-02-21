@@ -130,9 +130,12 @@ defmodule Othello.Game do
   def do_move(move, player, board) do
     # Get a list of the spaces that need to be flipped in all directions.
     spaces = List.foldr(directions(), [], fn(dir, acc) ->
+      # If the line is legal in that  direction,
       if line_legal(move, player, board, dir) do
+        # Add the line to the accumulator.
         acc ++ find_line(move, player, board, dir)
       else
+        # Otherwise, just return the accumulator.
         acc
       end
     end)
