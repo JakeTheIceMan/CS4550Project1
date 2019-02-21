@@ -96,12 +96,13 @@ function ShowRow(props) {
     // If the div is clicked, indicate that the tile has been chosen.
     return (
       <div className="column" key={colIndex}>
-      <div className={col.color} onClick={
-        () => props.choose(props.rowIndex, colIndex)
-      }/>
+        <div className={col.color} onClick={
+          () => props.choose(props.rowIndex, colIndex)
+        }/>
       </div>
     )
   });
   // Return the HTML.
   return <div className="row">{renderedRow}</div>;
 }
+
