@@ -1,0 +1,17 @@
+[Unit]
+Description=Othello
+
+[Service]
+Type=simple
+User=proj1
+Group=proj1
+Restart=on-failure
+Environment=MIX_ENV=prod "PORT=4793"
+Environment=LANG=en_US.UTF-8
+
+WorkingDirectory=/home/proj1/othello
+ExecStart=/home/proj1/othello/start.sh
+
+[Install]
+WantedBy=multi-user.target
+
