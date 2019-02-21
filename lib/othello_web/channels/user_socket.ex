@@ -16,10 +16,8 @@ defmodule OthelloWeb.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
   def connect(%{"token" => token}, socket, _connect_info) do
-    case Phoenix.Token.verify(socket, "user socket", token, max_age: 1209600) do
-      {:ok, user} ->
-        IO.puts("socket connect from player #{user}")
-        {:ok, assign(socket, :user, user)}
+    case Phoenix.Token.verify(socket, "user socket", token, max_age: 5) do
+      {:ok, user} -> {:ok, assign(socket, :user, user)}
       {:error, reason} -> :error
     end
   end
